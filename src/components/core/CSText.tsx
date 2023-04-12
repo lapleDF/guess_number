@@ -1,6 +1,6 @@
 import {StyleProp, StyleSheet, Text, TextStyle} from 'react-native';
 import React from 'react';
-import {COLORS} from '../utils/color.constant';
+import {COLORS} from '../../utils/color.constant';
 
 interface CSTextProps {
   children: any;

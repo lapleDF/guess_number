@@ -1,6 +1,5 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import Icon from 'react-native-vector-icons/Feather';
 import CSText from '../core/CSText';
 import {SPACING} from '../../utils/spacing.constant';
 import {COLORS} from '../../utils/color.constant';

@@ -6,7 +6,7 @@ import {COLORS} from '../../utils/color.constant';
 
 interface CSModalProps {
   refRBSheet: any;
-  height?: number;
+  height?: any;
   closeBtn?: boolean;
   children?: any;
   style?: any;
@@ -19,7 +19,6 @@ const CSModal = (props: CSModalProps) => {
       ref={refRBSheet}
       closeOnDragDown={false}
       animationType="slide"
-      minClosingHeight={4}
       customStyles={{
         container: {
           justifyContent: 'flex-start',
@@ -51,7 +50,7 @@ const CSModal = (props: CSModalProps) => {
         <TouchableOpacity
           onPress={() => refRBSheet.current.close()}
           style={styles.closeBtn}>
-          <Icon name="x" size={32} color={COLORS.red} />
+          <Icon name="x" size={26} color={COLORS.red} />
         </TouchableOpacity>
       )}
       <View style={styles.container}>{props.children}</View>

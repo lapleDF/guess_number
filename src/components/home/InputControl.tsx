@@ -1,28 +1,30 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import CSText from '../core/CSText';
 import {SPACING} from '../../utils/spacing.constant';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconFeather from 'react-native-vector-icons/Feather';
 import {COLORS} from '../../utils/color.constant';
-import {useSelector} from 'react-redux';
-import store, {RootState} from '../../store/store';
+import store from '../../store/store';
 import {GUESS_LIST_ACTION} from '../../store/actions/guessListAction.constant';
 import {GuessRecord} from '../../@type/GuessRecord';
 import {initialGuessRecord} from '../../@type/GuessRecord';
-import {GuessListType} from '../../@type/GuessListType';
 import uuid from 'react-uuid';
+import CSModal from '../core/CSModal';
 
 const InputControl = () => {
   const [inputValue, setInputValue] = useState<GuessRecord>(initialGuessRecord);
+  const refCSModal = useRef<any>(null);
+
   const handleGuess = () => {
     if (inputValue.yourGuess.length !== 4) {
-      // todo: popup invalid
+      refCSModal.current.open();
       return;
     }
     store.dispatch({type: GUESS_LIST_ACTION.addRecord, payload: inputValue});
     setInputValue({...inputValue, yourGuess: [], id: uuid()});
   };
+
   const handleDelete = () => {
     let arrTemp = inputValue.yourGuess;
     arrTemp.pop();
@@ -39,6 +41,12 @@ const InputControl = () => {
 
   return (
     <View style={styles.container}>
+      <CSModal refRBSheet={refCSModal} height="auto">
+        <CSText color="red" bold={600} size="lg">
+          Invalid number!
+        </CSText>
+        <CSText color="stroke">Your guess numbers must be 4 numbers!</CSText>
+      </CSModal>
       <View style={styles.inputField}>
         <CSText
           style={styles.inputFieldText}
@@ -112,7 +120,7 @@ const styles = StyleSheet.create({
   },
   keyBoardItem: {
     width: ((SPACING.width - 8) * 20) / 100,
-    paddingVertical: 8,
+    paddingVertical: 10,
     backgroundColor: COLORS.terarity,
     justifyContent: 'center',
     alignItems: 'center',
@@ -122,7 +130,7 @@ const styles = StyleSheet.create({
   },
   btnDelete: {
     width: ((SPACING.width - 8) * 20) / 100,
-    paddingVertical: 8,
+    paddingVertical: 10,
     backgroundColor: COLORS.red,
     justifyContent: 'center',
     alignItems: 'center',

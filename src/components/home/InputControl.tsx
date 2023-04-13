@@ -6,23 +6,34 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconFeather from 'react-native-vector-icons/Feather';
 import {COLORS} from '../../utils/color.constant';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../store/store';
+import store, {RootState} from '../../store/store';
+import {GUESS_LIST_ACTION} from '../../store/actions/guessListAction.constant';
+import {GuessRecord} from '../../@type/GuessRecord';
+import {initialGuessRecord} from '../../@type/GuessRecord';
+import {GuessListType} from '../../@type/GuessListType';
+import uuid from 'react-uuid';
 
 const InputControl = () => {
-  const [inputValue, setInputValue] = useState<any[]>([]);
-  const guessList = useSelector((state: RootState) => state.guesses);
-  console.log('guessList', guessList);
+  const [inputValue, setInputValue] = useState<GuessRecord>(initialGuessRecord);
   const handleGuess = () => {
-    console.log('handle guess');
+    if (inputValue.yourGuess.length !== 4) {
+      // todo: popup invalid
+      return;
+    }
+    store.dispatch({type: GUESS_LIST_ACTION.addRecord, payload: inputValue});
+    setInputValue({...inputValue, yourGuess: [], id: uuid()});
   };
-
   const handleDelete = () => {
-    setInputValue(prev => prev.slice(0, -1));
+    let arrTemp = inputValue.yourGuess;
+    arrTemp.pop();
+    setInputValue({...inputValue, yourGuess: arrTemp});
   };
 
   const handlePressKey = (value: number) => {
-    if (inputValue.length < 4) {
-      setInputValue([...inputValue, value]);
+    if (inputValue.yourGuess.length < 4) {
+      let arrTemp = inputValue.yourGuess;
+      arrTemp.push(value);
+      setInputValue({...inputValue, yourGuess: arrTemp});
     }
   };
 
@@ -34,7 +45,7 @@ const InputControl = () => {
           textAlign="center"
           bold="bold"
           size="lg">
-          {inputValue.join('')}
+          {inputValue.yourGuess.join('')}
         </CSText>
         <TouchableOpacity onPress={handleGuess} style={styles.guessBtn}>
           <Icon name="arrow-alt-circle-up" size={32} color={COLORS.white} />

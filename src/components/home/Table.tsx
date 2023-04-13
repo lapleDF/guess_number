@@ -4,8 +4,14 @@ import Icon from 'react-native-vector-icons/Feather';
 import CSText from '../core/CSText';
 import {SPACING} from '../../utils/spacing.constant';
 import {COLORS} from '../../utils/color.constant';
+import {GuessListType} from '../../@type/GuessListType';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store/store';
 
 const Table = () => {
+  const guessList: GuessListType = useSelector(
+    (state: RootState) => state.guesses,
+  );
   return (
     <View style={styles.container}>
       <View style={styles.thead}>
@@ -19,7 +25,7 @@ const Table = () => {
           Correct positions
         </CSText>
       </View>
-      {[...Array(10)].map((_, index) => {
+      {guessList.guessList.map((item, index) => {
         return (
           <View
             style={[styles.tbody, index === 9 && styles.tbodyLast]}
@@ -27,13 +33,35 @@ const Table = () => {
             <CSText
               textAlign="center"
               style={[styles.thead50number, styles.cell]}>
-              1234
+              {item.yourGuess.join('')}
             </CSText>
             <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
-              3
+              {item.correctNumber}
             </CSText>
             <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
-              6
+              {item.correctPosition}
+            </CSText>
+          </View>
+        );
+      })}
+      {[...Array(10 - guessList.guessList.length)].map((_, index) => {
+        return (
+          <View
+            style={[
+              styles.tbody,
+              index === 9 - guessList.guessList.length && styles.tbodyLast,
+            ]}
+            key={index}>
+            <CSText
+              textAlign="center"
+              style={[styles.thead50number, styles.cell]}>
+              {''}
+            </CSText>
+            <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
+              {''}
+            </CSText>
+            <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
+              {''}
             </CSText>
           </View>
         );

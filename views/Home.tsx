@@ -17,7 +17,6 @@ const Home = () => {
     randomNumbers.push(randomNumber);
   }
 
-  console.log(randomNumbers);
   return (
     <ImageBackground source={CONST_IMAGE.BG} style={styles.container}>
       <CSText size="xxl" bold="bold" color="primary">

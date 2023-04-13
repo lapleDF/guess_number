@@ -8,7 +8,9 @@ export const guessListReducer = (
 ) => {
   switch (action.type) {
     case GUESS_LIST_ACTION.addRecord:
-      return {...state, guessList: state.guessList.push(action.payload)};
+      let arrTemp = state.guessList;
+      arrTemp.push(action.payload);
+      return {...state, guessList: arrTemp};
     case GUESS_LIST_ACTION.deleteAll:
       return {...state, guessList: []};
     default:

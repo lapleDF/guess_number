@@ -5,23 +5,57 @@ import {SPACING} from '../../utils/spacing.constant';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconFeather from 'react-native-vector-icons/Feather';
 import {COLORS} from '../../utils/color.constant';
-import store from '../../store/store';
+import store, {RootState} from '../../store/store';
 import {GUESS_LIST_ACTION} from '../../store/actions/guessListAction.constant';
 import {GuessRecord} from '../../@type/GuessRecord';
 import {initialGuessRecord} from '../../@type/GuessRecord';
 import uuid from 'react-uuid';
 import CSModal from '../core/CSModal';
+import {useSelector} from 'react-redux';
+import {RoundListType} from '../../@type/RoundListType';
+import {RoundType} from '../../@type/RoundType';
+import {GuessListType} from '../../@type/GuessListType';
 
 const InputControl = () => {
   const [inputValue, setInputValue] = useState<GuessRecord>(initialGuessRecord);
   const refCSModal = useRef<any>(null);
+  const [errMess, setErrMess] = useState<string>('');
+  const rounds: RoundListType = useSelector((state: RootState) => state.rounds);
 
   const handleGuess = () => {
-    if (inputValue.yourGuess.length !== 4) {
+    let listNumber: GuessListType = rounds.roundList.slice(-1)[0].guessList;
+    if (listNumber.guessList.length === 10) {
+      setErrMess('Your have run out of guesses!');
       refCSModal.current.open();
       return;
     }
-    store.dispatch({type: GUESS_LIST_ACTION.addRecord, payload: inputValue});
+    if (inputValue.yourGuess.length !== 4) {
+      setErrMess('Your guess numbers must be 4 numbers!');
+      refCSModal.current.open();
+      return;
+    }
+
+    let expectedNumber: number[] = rounds.roundList.slice(-1)[0].expectedNumber;
+    let inputValueTemp: GuessRecord = inputValue;
+    let correctNumbers: number = 0;
+    let correctPositions: number = 0;
+
+    inputValueTemp.yourGuess.forEach((element, index) => {
+      if (expectedNumber.includes(element)) {
+        correctNumbers += 1;
+        if (expectedNumber.indexOf(element, index) === index) {
+          correctPositions += 1;
+        }
+      }
+    });
+
+    inputValueTemp.correctNumber = correctNumbers;
+    inputValueTemp.correctPosition = correctPositions;
+
+    store.dispatch({
+      type: GUESS_LIST_ACTION.addRecord,
+      payload: inputValueTemp,
+    });
     setInputValue({...inputValue, yourGuess: [], id: uuid()});
   };
 
@@ -33,6 +67,11 @@ const InputControl = () => {
 
   const handlePressKey = (value: number) => {
     if (inputValue.yourGuess.length < 4) {
+      if (inputValue.yourGuess.includes(value)) {
+        setErrMess('Numbers can not be the same!');
+        refCSModal.current.open();
+        return;
+      }
       let arrTemp = inputValue.yourGuess;
       arrTemp.push(value);
       setInputValue({...inputValue, yourGuess: arrTemp});
@@ -45,7 +84,7 @@ const InputControl = () => {
         <CSText color="red" bold={600} size="lg">
           Invalid number!
         </CSText>
-        <CSText color="stroke">Your guess numbers must be 4 numbers!</CSText>
+        <CSText color="stroke">{errMess}</CSText>
       </CSModal>
       <View style={styles.inputField}>
         <CSText

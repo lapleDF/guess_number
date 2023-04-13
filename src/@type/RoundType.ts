@@ -1,5 +1,6 @@
 import uuid from 'react-uuid';
 import {GuessListType, initialGuessList} from './GuessListType';
+import {getRandomNumbers} from '../shared/getRandomNumber';
 
 export interface RoundType {
   id: string;
@@ -13,6 +14,6 @@ export const initialRound: RoundType = {
   id: uuid(),
   guessList: initialGuessList,
   numNumber: 4,
-  expectedNumber: [],
+  expectedNumber: getRandomNumbers(4),
   result: false,
 };

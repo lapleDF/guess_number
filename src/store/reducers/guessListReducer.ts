@@ -11,8 +11,11 @@ export const guessListReducer = (
       let arrTemp = state.guessList;
       arrTemp.push(action.payload);
       return {...state, guessList: arrTemp};
-    case GUESS_LIST_ACTION.deleteAll:
+    case GUESS_LIST_ACTION.clear:
       return {...state, guessList: []};
+    // case GUESS_LIST_ACTION.setCorrectNumbers:
+    //   console.log('CCCCCC', state.guessList.slice(-1));
+    //   return state;
     default:
       return state;
   }

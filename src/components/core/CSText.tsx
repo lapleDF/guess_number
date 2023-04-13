@@ -28,7 +28,7 @@ const CSText = (props: CSTextProps) => {
   );
 };
 
-const sizeText = {
+export const sizeText = {
   xs: StyleSheet.create({
     text: {fontSize: 11},
   }),

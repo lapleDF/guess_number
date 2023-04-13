@@ -7,4 +7,5 @@ export const COLORS = {
   overlay: '#ffffff99',
   stroke: '#410074',
   red: '#FF696E',
+  transparent: 'transparent',
 };

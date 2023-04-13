@@ -4,14 +4,14 @@ import {
   applyMiddleware,
 } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import {roundReducer} from './reducers/roundReducer';
+import {roundListReducer} from './reducers/roundReducer';
 import {guessListReducer} from './reducers/guessListReducer';
 import rootSaga from './saga';
 import {composeWithDevTools} from 'redux-devtools-extension';
 
 const sagaMiddleWare = createSagaMiddleware();
 const reducer = combineReducers({
-  rounds: roundReducer,
+  rounds: roundListReducer,
   guesses: guessListReducer,
 });
 

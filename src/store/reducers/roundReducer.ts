@@ -1,16 +1,21 @@
 import {PayloadAction} from '../../@type/PayloadAction';
-import {RoundType, initialRound} from '../../@type/RoundType';
+import {RoundListType, initialRoundList} from '../../@type/RoundListType';
+import {RoundType} from '../../@type/RoundType';
 import {ROUND_ACTION} from '../actions/roundAction.constant';
 
-export const roundReducer = (
-  state: RoundType = initialRound,
+export const roundListReducer = (
+  state: RoundListType = initialRoundList,
   action: PayloadAction,
 ) => {
   switch (action.type) {
     case ROUND_ACTION.newGame:
-      return {...state, expectedNumber: action.payload};
+      let arrTemp = state.roundList;
+      arrTemp.push(action.payload);
+      return {...state, roundList: arrTemp};
     case ROUND_ACTION.endGame:
-      return {...state, result: action.payload};
+      let roundTemp: RoundType[] = state.roundList;
+      roundTemp[roundTemp.length - 1].result = action.payload;
+      return {...state, roundList: roundTemp};
     default:
       return state;
   }

@@ -43,28 +43,29 @@ const Table = () => {
           </View>
         );
       })}
-      {[...Array(10 - guessList.guessList.length)].map((_, index) => {
-        return (
-          <View
-            style={[
-              styles.tbody,
-              index === 9 - guessList.guessList.length && styles.tbodyLast,
-            ]}
-            key={index}>
-            <CSText
-              textAlign="center"
-              style={[styles.thead50number, styles.cell]}>
-              {''}
-            </CSText>
-            <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
-              {''}
-            </CSText>
-            <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
-              {''}
-            </CSText>
-          </View>
-        );
-      })}
+      {guessList.guessList.length < 10 &&
+        [...Array(10 - guessList.guessList.length)].map((_, index) => {
+          return (
+            <View
+              style={[
+                styles.tbody,
+                index === 9 - guessList.guessList.length && styles.tbodyLast,
+              ]}
+              key={index}>
+              <CSText
+                textAlign="center"
+                style={[styles.thead50number, styles.cell]}>
+                {''}
+              </CSText>
+              <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
+                {''}
+              </CSText>
+              <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
+                {''}
+              </CSText>
+            </View>
+          );
+        })}
     </View>
   );
 };

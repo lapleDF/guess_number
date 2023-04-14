@@ -13,8 +13,6 @@ import uuid from 'react-uuid';
 import CSModal from '../core/CSModal';
 import {useSelector} from 'react-redux';
 import {RoundListType} from '../../@type/RoundListType';
-import {RoundType} from '../../@type/RoundType';
-import {GuessListType} from '../../@type/GuessListType';
 
 const InputControl = () => {
   const [inputValue, setInputValue] = useState<GuessRecord>(initialGuessRecord);
@@ -23,27 +21,36 @@ const InputControl = () => {
   const rounds: RoundListType = useSelector((state: RootState) => state.rounds);
 
   const handleGuess = () => {
-    let listNumber: GuessListType = rounds.roundList.slice(-1)[0].guessList;
-    if (listNumber.guessList.length === 10) {
+    let listNumber: GuessRecord[] =
+      rounds.roundList[rounds.roundList.length - 1]?.guessList;
+    if (listNumber?.length === 10) {
       setErrMess('Your have run out of guesses!');
       refCSModal.current.open();
       return;
     }
-    if (inputValue.yourGuess.length !== 4) {
-      setErrMess('Your guess numbers must be 4 numbers!');
+    if (
+      inputValue.yourGuess.length !==
+      rounds.roundList[rounds.roundList.length - 1].numNumber
+    ) {
+      setErrMess(
+        `Your guess numbers must be ${
+          rounds.roundList[rounds.roundList.length - 1].numNumber
+        } numbers!`,
+      );
       refCSModal.current.open();
       return;
     }
 
-    let expectedNumber: number[] = rounds.roundList.slice(-1)[0].expectedNumber;
+    let expectedNumber: number[] =
+      rounds.roundList[rounds.roundList.length - 1]?.expectedNumber;
     let inputValueTemp: GuessRecord = inputValue;
     let correctNumbers: number = 0;
     let correctPositions: number = 0;
 
     inputValueTemp.yourGuess.forEach((element, index) => {
-      if (expectedNumber.includes(element)) {
+      if (expectedNumber?.includes(element)) {
         correctNumbers += 1;
-        if (expectedNumber.indexOf(element, index) === index) {
+        if (expectedNumber?.indexOf(element, index) === index) {
           correctPositions += 1;
         }
       }
@@ -66,7 +73,10 @@ const InputControl = () => {
   };
 
   const handlePressKey = (value: number) => {
-    if (inputValue.yourGuess.length < 4) {
+    if (
+      inputValue.yourGuess.length <
+      rounds.roundList[rounds.roundList.length - 1].numNumber
+    ) {
       if (inputValue.yourGuess.includes(value)) {
         setErrMess('Numbers can not be the same!');
         refCSModal.current.open();

@@ -1,11 +1,4 @@
-import {
-  StyleProp,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
+import {StyleProp, StyleSheet, TouchableOpacity, ViewStyle} from 'react-native';
 import React from 'react';
 import CSText, {sizeText} from './CSText';
 import {COLORS} from '../../utils/color.constant';
@@ -45,6 +38,7 @@ const type = {
       paddingVertical: 8,
       backgroundColor: COLORS.primary,
       borderRadius: 8,
+      alignItems: 'center',
     },
     textBtn: {
       color: COLORS.white,
@@ -56,6 +50,7 @@ const type = {
       paddingVertical: 8,
       backgroundColor: COLORS.secondary,
       borderRadius: 8,
+      alignItems: 'center',
     },
     textBtn: {
       color: COLORS.white,
@@ -64,5 +59,3 @@ const type = {
 };
 
 export default CSButton;
-
-const styles = StyleSheet.create({});

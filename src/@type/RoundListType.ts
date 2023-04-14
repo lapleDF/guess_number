@@ -1,9 +1,9 @@
-import {RoundType, initialRound} from './RoundType';
+import {RoundType} from './RoundType';
 
 export interface RoundListType {
   roundList: RoundType[];
 }
 
 export const initialRoundList: RoundListType = {
-  roundList: [initialRound],
+  roundList: [],
 };

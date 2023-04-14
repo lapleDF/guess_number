@@ -8,4 +8,5 @@ export const COLORS = {
   stroke: '#410074',
   red: '#FF696E',
   transparent: 'transparent',
+  grey: '#2E2B2B',
 };

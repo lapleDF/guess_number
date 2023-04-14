@@ -21,6 +21,7 @@ import {RoundType, initialRound} from '../src/@type/RoundType';
 import uuid from 'react-uuid';
 import {getRandomNumbers} from '../src/shared/getRandomNumber';
 import IconOcticons from 'react-native-vector-icons/Octicons';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
   const refModal = useRef<any>(null);
@@ -29,6 +30,7 @@ const Home = () => {
   const guesses: GuessListType = useSelector(
     (state: RootState) => state.guesses,
   );
+  const navigation = useNavigation<any>();
   const [newRoundValue, setNewRoundValue] = useState<RoundType>(initialRound);
   const [numNumber, setNumNumber] = useState<number>(
     rounds.roundList[rounds.roundList.length - 1]?.numNumber || 4,
@@ -100,7 +102,9 @@ const Home = () => {
         <CSText color="primary">{message}</CSText>
         <CSButton onPress={handleNewGame} title="New game" />
       </CSModal>
-      <TouchableOpacity onPress={() => {}} style={styles.btnSettings}>
+      <TouchableOpacity
+        onPress={() => navigation.openDrawer()}
+        style={styles.btnSettings}>
         <IconOcticons name="multi-select" size={23} color={COLORS.white} />
       </TouchableOpacity>
       <View style={styles.btnSelectLevelwrapper}>

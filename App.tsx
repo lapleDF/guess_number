@@ -1,14 +1,14 @@
 import React from 'react';
-import Home from './views/Home';
 import {Provider} from 'react-redux';
 import store from './src/store/store';
 import {NavigationContainer} from '@react-navigation/native';
+import RootDrawer from './src/navigators/RootDrawer';
 
 const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Home />
+        <RootDrawer />
       </NavigationContainer>
     </Provider>
   );

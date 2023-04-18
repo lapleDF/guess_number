@@ -4,33 +4,42 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import uuid from 'react-uuid';
+import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useRef, useState} from 'react';
-import {CONST_IMAGE} from '../utils/image.constant';
+import IconOcticons from 'react-native-vector-icons/Octicons';
+
 import CSText from '../components/core/CSText';
 import Table from '../components/home/Table';
 import InputControl from '../components/home/InputControl';
-import {useSelector} from 'react-redux';
 import {GuessListType} from '../interface/GuessListType';
-import store, {RootState} from '../store/store';
+import {RootState, appDispatch} from '../store/store';
 import {RoundListType} from '../interface/RoundListType';
-import {COLORS} from '../utils/color.constant';
+import {COLORS} from '../constants/color.constant';
+import {CONST_IMAGE} from '../constants/image.constant';
 import CSModal from '../components/core/CSModal';
 import CSButton from '../components/core/CSButton';
 import {ROUND_ACTION} from '../store/actions/roundAction.constant';
-import {RoundType, initialRound} from '../interface/RoundType';
-import uuid from 'react-uuid';
-import {getRandomNumbers} from '../shared/getRandomNumber';
-import IconOcticons from 'react-native-vector-icons/Octicons';
-import {useNavigation} from '@react-navigation/native';
+import {RoundType} from '../interface/RoundType';
+import {getRandomNumbers} from '../utils/getRandomNumber';
+
+export const initialRound: RoundType = {
+  id: uuid(),
+  guessList: [],
+  numNumber: 4,
+  expectedNumber: getRandomNumbers(4),
+  result: false,
+};
 
 const Home = () => {
-  const refModal = useRef<any>(null);
-  const [message, setMessage] = useState<string>('');
   const rounds: RoundListType = useSelector((state: RootState) => state.rounds);
   const guesses: GuessListType = useSelector(
     (state: RootState) => state.guesses,
   );
   const navigation = useNavigation<any>();
+  const refModal = useRef<any>(null);
+  const [message, setMessage] = useState<string>('');
   const [newRoundValue, setNewRoundValue] = useState<RoundType>(initialRound);
   const [numNumber, setNumNumber] = useState<number>(
     rounds.roundList[rounds.roundList.length - 1]?.numNumber || 4,
@@ -38,7 +47,7 @@ const Home = () => {
   const [isDisplaySelection, setIsDisplaySelection] = useState<boolean>(false);
 
   useEffect(() => {
-    store.dispatch({type: ROUND_ACTION.NEW_GAME, payload: newRoundValue});
+    appDispatch(ROUND_ACTION.NEW_GAME, newRoundValue);
   }, [newRoundValue]);
 
   useEffect(() => {
@@ -59,12 +68,11 @@ const Home = () => {
 
   const handleNewGame = () => {
     refModal.current.close();
-    let numGuessNumber = numNumber;
     setNewRoundValue({
       ...newRoundValue,
       id: uuid(),
-      expectedNumber: getRandomNumbers(numGuessNumber),
-      numNumber: numGuessNumber,
+      expectedNumber: getRandomNumbers(numNumber),
+      numNumber: numNumber,
       guessList: [],
       result: false,
     });
@@ -79,14 +87,14 @@ const Home = () => {
       setIsDisplaySelection(!isDisplaySelection);
       return;
     }
-    store.dispatch({type: ROUND_ACTION.SET_LEVEL, payload: level});
+    appDispatch(ROUND_ACTION.SET_LEVEL, level);
     setNumNumber(level);
     setIsDisplaySelection(!isDisplaySelection);
   };
 
   return (
     <ImageBackground source={CONST_IMAGE.BG} style={styles.container}>
-      <CSModal refRBSheet={refModal} height={'auto'}>
+      <CSModal refRBSheet={refModal}>
         <CSText size="lg" color="primary">
           Finished!
         </CSText>

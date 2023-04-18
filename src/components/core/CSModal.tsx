@@ -1,8 +1,10 @@
-import {Dimensions, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/Feather';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import {COLORS} from '../../utils/color.constant';
+
+import {COLORS} from '../../constants/color.constant';
+import {SPACING} from '../../constants/spacing.constant';
 
 interface CSModalProps {
   refRBSheet: any;
@@ -13,7 +15,7 @@ interface CSModalProps {
 }
 
 const CSModal = (props: CSModalProps) => {
-  const {refRBSheet, height = 500, closeBtn = true} = props;
+  const {refRBSheet, height = 'auto', closeBtn = true, children, style} = props;
   return (
     <RBSheet
       ref={refRBSheet}
@@ -25,7 +27,7 @@ const CSModal = (props: CSModalProps) => {
           alignItems: 'center',
           height: height,
           borderRadius: 15,
-          width: Dimensions.get('screen').width - 20,
+          width: SPACING.width - SPACING.px * 2,
           position: 'absolute',
           shadowColor: COLORS.black,
           shadowOffset: {
@@ -36,10 +38,7 @@ const CSModal = (props: CSModalProps) => {
           shadowRadius: 4.65,
 
           elevation: 6,
-          ...props.style,
-        },
-        draggableIcon: {
-          backgroundColor: COLORS.secondary,
+          ...style,
         },
         wrapper: {
           justifyContent: 'center',
@@ -53,7 +52,7 @@ const CSModal = (props: CSModalProps) => {
           <Icon name="x" size={26} color={COLORS.red} />
         </TouchableOpacity>
       )}
-      <View style={styles.container}>{props.children}</View>
+      <View style={styles.container}>{children}</View>
     </RBSheet>
   );
 };

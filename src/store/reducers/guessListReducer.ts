@@ -1,6 +1,10 @@
-import {GuessListType, initialGuessList} from '../../interface/GuessListType';
+import {GuessListType} from '../../interface/GuessListType';
 import {PayloadAction} from '../../interface/PayloadAction';
 import {GUESS_LIST_ACTION} from '../actions/guessListAction.constant';
+
+export const initialGuessList: GuessListType = {
+  guessList: [],
+};
 
 export const guessListReducer = (
   state: GuessListType = initialGuessList,

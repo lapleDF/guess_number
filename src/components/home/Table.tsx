@@ -1,15 +1,16 @@
-import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import CSText from '../core/CSText';
-import {SPACING} from '../../utils/spacing.constant';
-import {COLORS} from '../../utils/color.constant';
-import {GuessListType} from '../../interface/GuessListType';
 import {useSelector} from 'react-redux';
+import {StyleSheet, View} from 'react-native';
+
+import {SPACING} from '../../constants/spacing.constant';
+import {COLORS} from '../../constants/color.constant';
 import {RootState} from '../../store/store';
+import CSText from '../core/CSText';
+import {GuessRecord} from '../../interface/GuessRecord';
 
 const Table = () => {
-  const guessList: GuessListType = useSelector(
-    (state: RootState) => state.guesses,
+  const guessList: GuessRecord[] = useSelector(
+    (state: RootState) => state.guesses.guessList,
   );
   return (
     <View style={styles.container}>
@@ -18,7 +19,7 @@ const Table = () => {
         <CSText style={[styles.thead23, styles.cell]}>Correct numbers</CSText>
         <CSText style={[styles.thead23, styles.cell]}>Correct positions</CSText>
       </View>
-      {guessList.guessList.map((item, index) => {
+      {guessList.map((item, index) => {
         return (
           <View
             style={[styles.tbody, index === 9 && styles.tbodyLast]}
@@ -35,13 +36,13 @@ const Table = () => {
           </View>
         );
       })}
-      {guessList.guessList.length < 10 &&
-        [...Array(10 - guessList.guessList.length)].map((_, index) => {
+      {guessList.length < 10 &&
+        [...Array(10 - guessList.length)].map((_, index) => {
           return (
             <View
               style={[
                 styles.tbody,
-                index === 9 - guessList.guessList.length && styles.tbodyLast,
+                index === 9 - guessList.length && styles.tbodyLast,
               ]}
               key={index}>
               <CSText style={[styles.thead50number, styles.cell]}>{''}</CSText>

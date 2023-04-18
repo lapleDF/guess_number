@@ -1,96 +1,53 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import React, {useRef, useState} from 'react';
-import CSText from '../core/CSText';
-import {SPACING} from '../../utils/spacing.constant';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconFeather from 'react-native-vector-icons/Feather';
-import {COLORS} from '../../utils/color.constant';
-import store, {RootState} from '../../store/store';
-import {GUESS_LIST_ACTION} from '../../store/actions/guessListAction.constant';
-import {GuessRecord} from '../../interface/GuessRecord';
-import {initialGuessRecord} from '../../interface/GuessRecord';
-import uuid from 'react-uuid';
-import CSModal from '../core/CSModal';
+import React, {useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
+import IconFeather from 'react-native-vector-icons/Feather';
+
+import {GUESS_LIST_ACTION} from '../../store/actions/guessListAction.constant';
+import {RootState, appDispatch} from '../../store/store';
 import {RoundListType} from '../../interface/RoundListType';
+import {SPACING} from '../../constants/spacing.constant';
+import {COLORS} from '../../constants/color.constant';
+import CSModal from '../core/CSModal';
+import CSText from '../core/CSText';
 
 const InputControl = () => {
-  const [inputValue, setInputValue] = useState<GuessRecord>(initialGuessRecord);
+  const [inputValue, setInputValue] = useState<number[]>([]);
   const refCSModal = useRef<any>(null);
   const [errMess, setErrMess] = useState<string>('');
   const rounds: RoundListType = useSelector((state: RootState) => state.rounds);
+  const numNumber = rounds.roundList[rounds.roundList.length - 1]?.numNumber;
 
   const handleGuess = () => {
-    let listNumber: GuessRecord[] =
-      rounds.roundList[rounds.roundList.length - 1]?.guessList;
-    if (listNumber?.length === 10) {
-      setErrMess('Your have run out of guesses!');
+    // validate whether input number not valid
+    if (inputValue.length !== numNumber) {
+      setErrMess(`Your guess numbers must be ${numNumber} numbers!`);
       refCSModal.current.open();
       return;
     }
-    if (
-      inputValue.yourGuess.length !==
-      rounds.roundList[rounds.roundList.length - 1].numNumber
-    ) {
-      setErrMess(
-        `Your guess numbers must be ${
-          rounds.roundList[rounds.roundList.length - 1].numNumber
-        } numbers!`,
-      );
-      refCSModal.current.open();
-      return;
-    }
-
-    let expectedNumber: number[] =
-      rounds.roundList[rounds.roundList.length - 1]?.expectedNumber;
-    let inputValueTemp: GuessRecord = inputValue;
-    let correctNumbers: number = 0;
-    let correctPositions: number = 0;
-
-    inputValueTemp.yourGuess.forEach((element, index) => {
-      if (expectedNumber?.includes(element)) {
-        correctNumbers += 1;
-        if (expectedNumber?.indexOf(element, index) === index) {
-          correctPositions += 1;
-        }
-      }
-    });
-
-    inputValueTemp.correctNumber = correctNumbers;
-    inputValueTemp.correctPosition = correctPositions;
-
-    store.dispatch({
-      type: GUESS_LIST_ACTION.ADD_NEW_RECORD,
-      payload: inputValueTemp,
-    });
-    setInputValue({...inputValue, yourGuess: [], id: uuid()});
+    appDispatch(GUESS_LIST_ACTION.RECEIVE_NUMBER, inputValue);
+    setInputValue([]);
   };
 
   const handleDelete = () => {
-    let arrTemp = inputValue.yourGuess;
-    arrTemp.pop();
-    setInputValue({...inputValue, yourGuess: arrTemp});
+    setInputValue(inputValue.slice(0, -1));
   };
 
   const handlePressKey = (value: number) => {
-    if (
-      inputValue.yourGuess.length <
-      rounds.roundList[rounds.roundList.length - 1].numNumber
-    ) {
-      if (inputValue.yourGuess.includes(value)) {
+    if (inputValue.length < numNumber) {
+      if (inputValue.includes(value)) {
         setErrMess('Numbers can not be the same!');
         refCSModal.current.open();
         return;
       }
-      let arrTemp = inputValue.yourGuess;
-      arrTemp.push(value);
-      setInputValue({...inputValue, yourGuess: arrTemp});
+      setInputValue([...inputValue, value]);
     }
   };
 
   return (
     <View style={styles.container}>
-      <CSModal refRBSheet={refCSModal} height="auto">
+      <CSModal refRBSheet={refCSModal}>
         <CSText color="red" size="lg">
           Invalid number!
         </CSText>
@@ -98,7 +55,7 @@ const InputControl = () => {
       </CSModal>
       <View style={styles.inputField}>
         <CSText style={styles.inputFieldText} size="lg">
-          {inputValue.yourGuess.join('')}
+          {inputValue.join('')}
         </CSText>
         <TouchableOpacity onPress={handleGuess} style={styles.guessBtn}>
           <Icon name="arrow-alt-circle-up" size={32} color={COLORS.white} />

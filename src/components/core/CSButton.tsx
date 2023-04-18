@@ -1,20 +1,20 @@
 import {StyleProp, StyleSheet, TouchableOpacity, ViewStyle} from 'react-native';
 import React from 'react';
 import CSText from './CSText';
-import {COLORS} from '../../utils/color.constant';
+import {COLORS} from '../../constants/color.constant';
 
 interface CSButtonProps {
   title: string;
   onPress: () => void;
   variant?: 'primary' | 'secondary';
-  styleProps?: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>;
 }
 
 const CSButton = ({variant = 'primary', ...props}: CSButtonProps) => {
   return (
     <TouchableOpacity
       onPress={props.onPress}
-      style={[styles.btn, styles[variant], props.styleProps]}>
+      style={[styles.btn, styles[variant], props.style]}>
       <CSText>{props.title}</CSText>
     </TouchableOpacity>
   );

@@ -1,7 +1,7 @@
 import {StyleProp, Text, TextStyle} from 'react-native';
 import React from 'react';
 
-import {COLORS} from '../../utils/color.constant';
+import {COLORS} from '../../constants/color.constant';
 
 export interface CSTextProps {
   children: any;
@@ -23,7 +23,7 @@ const CSText = ({size = 'md', ...props}: CSTextProps) => {
       style={[
         {
           fontSize: typeof size === 'number' ? size : sizeText[size],
-          color: props.color,
+          color: COLORS[props.color || 'white'],
         },
         props.style,
       ]}>

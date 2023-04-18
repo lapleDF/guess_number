@@ -1,5 +1,5 @@
-import {GuessListType, initialGuessList} from '../../@type/GuessListType';
-import {PayloadAction} from '../../@type/PayloadAction';
+import {GuessListType, initialGuessList} from '../../interface/GuessListType';
+import {PayloadAction} from '../../interface/PayloadAction';
 import {GUESS_LIST_ACTION} from '../actions/guessListAction.constant';
 
 export const guessListReducer = (
@@ -7,15 +7,10 @@ export const guessListReducer = (
   action: PayloadAction,
 ) => {
   switch (action.type) {
-    case GUESS_LIST_ACTION.addRecord:
-      let arrTemp = state.guessList;
-      arrTemp.push(action.payload);
-      return {...state, guessList: arrTemp};
-    case GUESS_LIST_ACTION.clear:
+    case GUESS_LIST_ACTION.ADD_NEW_RECORD:
+      return {...state, guessList: [...state.guessList, action.payload]};
+    case GUESS_LIST_ACTION.CLEAR:
       return {...state, guessList: []};
-    // case GUESS_LIST_ACTION.setCorrectNumbers:
-    //   console.log('CCCCCC', state.guessList.slice(-1));
-    //   return state;
     default:
       return state;
   }

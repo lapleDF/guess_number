@@ -1,8 +1,8 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import Home from '../../views/Home';
-import History from '../../views/History';
+import Home from '../screens/Home';
+import History from '../screens/History';
 import {COLORS} from '../utils/color.constant';
 import Icon from 'react-native-vector-icons/Feather';
 import CSText from '../components/core/CSText';
@@ -21,11 +21,7 @@ const RootDrawer = () => {
   return (
     <Drawer.Navigator
       screenOptions={{
-        drawerContentContainerStyle: {width: 200},
         drawerType: 'front',
-        // drawerContentStyle: {backgroundColor: COLORS.grey, elevation: 7},
-        drawerItemStyle: {backgroundColor: COLORS.grey},
-        // drawerLabelStyle: {color: COLORS.primary, fontSize: },
       }}>
       <Drawer.Group screenOptions={{headerShown: false}}>
         <Drawer.Screen

@@ -1,5 +1,5 @@
-import {PayloadAction} from '../../@type/PayloadAction';
-import {RoundListType, initialRoundList} from '../../@type/RoundListType';
+import {PayloadAction} from '../../interface/PayloadAction';
+import {RoundListType, initialRoundList} from '../../interface/RoundListType';
 import {ROUND_ACTION} from '../actions/roundAction.constant';
 
 export const roundListReducer = (
@@ -7,12 +7,12 @@ export const roundListReducer = (
   action: PayloadAction,
 ) => {
   switch (action.type) {
-    case ROUND_ACTION.newGame:
+    case ROUND_ACTION.NEW_GAME:
       return {
         ...state,
         roundList: [...state.roundList, action.payload],
       };
-    case ROUND_ACTION.endGame:
+    case ROUND_ACTION.END_GAME:
       const roundArr = state.roundList.map((item, index) => {
         if (index === state.roundList.length - 1) {
           const roundItem = item;
@@ -22,7 +22,7 @@ export const roundListReducer = (
         return item;
       });
       return {...state, roundList: roundArr};
-    case ROUND_ACTION.storeGuessList:
+    case ROUND_ACTION.STORE_GUESS_LIST:
       const roundArrTemp = state.roundList.map((item, index) => {
         if (index === state.roundList.length - 2) {
           const roundItem = item;
@@ -32,7 +32,7 @@ export const roundListReducer = (
         return item;
       });
       return {...state, roundList: roundArrTemp};
-    case ROUND_ACTION.setLevel:
+    case ROUND_ACTION.SET_LEVEL:
       const roundArrForSetLevel = state.roundList.map((item, index) => {
         if (index === state.roundList.length - 1) {
           const roundItem = item;
@@ -43,7 +43,7 @@ export const roundListReducer = (
         return item;
       });
       return {...state, roundList: roundArrForSetLevel};
-    case ROUND_ACTION.resetExpectedNumber:
+    case ROUND_ACTION.RESET_EXPECTED_NUMBER:
       const roundArrForReSetExpNumber = state.roundList.map((item, index) => {
         if (index === state.roundList.length - 1) {
           const roundItem = item;

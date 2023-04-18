@@ -1,9 +1,9 @@
 import {put, takeEvery, select} from 'redux-saga/effects';
 import {GUESS_LIST_ACTION} from '../actions/guessListAction.constant';
-import {PayloadAction} from '../../@type/PayloadAction';
+import {PayloadAction} from '../../interface/PayloadAction';
 import {ROUND_ACTION} from '../actions/roundAction.constant';
 import {RootState} from '../store';
-import {RoundListType} from '../../@type/RoundListType';
+import {RoundListType} from '../../interface/RoundListType';
 
 function* addNewRecord(action: PayloadAction) {
   const rounds: RoundListType = yield select(
@@ -15,10 +15,10 @@ function* addNewRecord(action: PayloadAction) {
     action.payload.correctPosition ===
       rounds.roundList[rounds.roundList.length - 1].numNumber
   ) {
-    yield put({type: ROUND_ACTION.endGame, payload: true});
+    yield put({type: ROUND_ACTION.END_GAME, payload: true});
   }
 }
 
 export default function* guessSaga() {
-  yield takeEvery(GUESS_LIST_ACTION.addRecord, addNewRecord);
+  yield takeEvery(GUESS_LIST_ACTION.ADD_NEW_RECORD, addNewRecord);
 }

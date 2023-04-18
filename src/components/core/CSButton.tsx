@@ -1,61 +1,41 @@
 import {StyleProp, StyleSheet, TouchableOpacity, ViewStyle} from 'react-native';
 import React from 'react';
-import CSText, {sizeText} from './CSText';
+import CSText from './CSText';
 import {COLORS} from '../../utils/color.constant';
 
 interface CSButtonProps {
-  children?: any;
-  type?: keyof typeof type;
-  style?: StyleProp<ViewStyle>;
-  title?: any;
+  title: string;
   onPress: () => void;
-  boldText?: any;
-  sizeText?: keyof typeof sizeText;
-  textAlign?: any;
+  variant?: 'primary' | 'secondary';
+  styleProps?: StyleProp<ViewStyle>;
 }
 
-const CSButton = (props: CSButtonProps) => {
+const CSButton = ({variant = 'primary', ...props}: CSButtonProps) => {
   return (
     <TouchableOpacity
       onPress={props.onPress}
-      style={[type[props.type || 'primary'].btn]}>
-      <CSText
-        bold={props.boldText || 'normal'}
-        size={props.sizeText || 'md'}
-        textAlign={props.textAlign || 'center'}
-        style={[[type[props.type || 'primary'].textBtn]]}>
-        {props.title}
-      </CSText>
-      {props.children}
+      style={[styles.btn, styles[variant], props.styleProps]}>
+      <CSText>{props.title}</CSText>
     </TouchableOpacity>
   );
 };
 
-const type = {
-  primary: StyleSheet.create({
-    btn: {
-      paddingHorizontal: 10,
-      paddingVertical: 8,
-      backgroundColor: COLORS.primary,
-      borderRadius: 8,
-      alignItems: 'center',
-    },
-    textBtn: {
-      color: COLORS.white,
-    },
-  }),
-  secondary: StyleSheet.create({
-    btn: {
-      paddingHorizontal: 10,
-      paddingVertical: 8,
-      backgroundColor: COLORS.secondary,
-      borderRadius: 8,
-      alignItems: 'center',
-    },
-    textBtn: {
-      color: COLORS.white,
-    },
-  }),
-};
+const styles = StyleSheet.create({
+  btn: {
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  primary: {
+    backgroundColor: COLORS.primary,
+    color: COLORS.white,
+  },
+  secondary: {
+    color: COLORS.primary,
+    borderColor: COLORS.primary,
+    borderWidth: 1,
+  },
+});
 
 export default CSButton;

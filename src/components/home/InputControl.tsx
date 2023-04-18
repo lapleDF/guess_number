@@ -7,12 +7,12 @@ import IconFeather from 'react-native-vector-icons/Feather';
 import {COLORS} from '../../utils/color.constant';
 import store, {RootState} from '../../store/store';
 import {GUESS_LIST_ACTION} from '../../store/actions/guessListAction.constant';
-import {GuessRecord} from '../../@type/GuessRecord';
-import {initialGuessRecord} from '../../@type/GuessRecord';
+import {GuessRecord} from '../../interface/GuessRecord';
+import {initialGuessRecord} from '../../interface/GuessRecord';
 import uuid from 'react-uuid';
 import CSModal from '../core/CSModal';
 import {useSelector} from 'react-redux';
-import {RoundListType} from '../../@type/RoundListType';
+import {RoundListType} from '../../interface/RoundListType';
 
 const InputControl = () => {
   const [inputValue, setInputValue] = useState<GuessRecord>(initialGuessRecord);
@@ -60,7 +60,7 @@ const InputControl = () => {
     inputValueTemp.correctPosition = correctPositions;
 
     store.dispatch({
-      type: GUESS_LIST_ACTION.addRecord,
+      type: GUESS_LIST_ACTION.ADD_NEW_RECORD,
       payload: inputValueTemp,
     });
     setInputValue({...inputValue, yourGuess: [], id: uuid()});
@@ -91,17 +91,13 @@ const InputControl = () => {
   return (
     <View style={styles.container}>
       <CSModal refRBSheet={refCSModal} height="auto">
-        <CSText color="red" bold={600} size="lg">
+        <CSText color="red" size="lg">
           Invalid number!
         </CSText>
         <CSText color="stroke">{errMess}</CSText>
       </CSModal>
       <View style={styles.inputField}>
-        <CSText
-          style={styles.inputFieldText}
-          textAlign="center"
-          bold="bold"
-          size="lg">
+        <CSText style={styles.inputFieldText} size="lg">
           {inputValue.yourGuess.join('')}
         </CSText>
         <TouchableOpacity onPress={handleGuess} style={styles.guessBtn}>
@@ -116,9 +112,7 @@ const InputControl = () => {
               key={index}
               style={styles.keyBoardItem}
               onPress={() => handlePressKey(index + 1)}>
-              <CSText style={styles.numberPress} textAlign={'center'}>
-                {index + 1}
-              </CSText>
+              <CSText style={styles.numberPress}>{index + 1}</CSText>
             </TouchableOpacity>
           );
         })}
@@ -155,6 +149,8 @@ const styles = StyleSheet.create({
   },
   inputFieldText: {
     letterSpacing: 15,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   guessBtn: {
     position: 'absolute',
@@ -176,6 +172,7 @@ const styles = StyleSheet.create({
   },
   numberPress: {
     textAlignVertical: 'center',
+    fontWeight: 'bold',
   },
   btnDelete: {
     width: ((SPACING.width - 8) * 20) / 100,

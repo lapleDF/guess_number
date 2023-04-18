@@ -1,7 +1,7 @@
 export const ROUND_ACTION = {
-  newGame: 'NEW_GAME',
-  endGame: 'END_GAME',
-  storeGuessList: 'STORE_GUESS_LIST',
-  setLevel: 'SET_LEVEL',
-  resetExpectedNumber: 'RESET_EXPECTED_NUMBER',
+  NEW_GAME: 'NEW_GAME',
+  END_GAME: 'END_GAME',
+  STORE_GUESS_LIST: 'STORE_GUESS_LIST',
+  SET_LEVEL: 'SET_LEVEL',
+  RESET_EXPECTED_NUMBER: 'RESET_EXPECTED_NUMBER',
 };

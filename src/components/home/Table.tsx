@@ -3,7 +3,7 @@ import React from 'react';
 import CSText from '../core/CSText';
 import {SPACING} from '../../utils/spacing.constant';
 import {COLORS} from '../../utils/color.constant';
-import {GuessListType} from '../../@type/GuessListType';
+import {GuessListType} from '../../interface/GuessListType';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/store';
 
@@ -14,30 +14,22 @@ const Table = () => {
   return (
     <View style={styles.container}>
       <View style={styles.thead}>
-        <CSText textAlign="center" style={[styles.thead50, styles.cell]}>
-          Your guess
-        </CSText>
-        <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
-          Correct numbers
-        </CSText>
-        <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
-          Correct positions
-        </CSText>
+        <CSText style={[styles.thead50, styles.cell]}>Your guess</CSText>
+        <CSText style={[styles.thead23, styles.cell]}>Correct numbers</CSText>
+        <CSText style={[styles.thead23, styles.cell]}>Correct positions</CSText>
       </View>
       {guessList.guessList.map((item, index) => {
         return (
           <View
             style={[styles.tbody, index === 9 && styles.tbodyLast]}
             key={index}>
-            <CSText
-              textAlign="center"
-              style={[styles.thead50number, styles.cell]}>
+            <CSText style={[styles.thead50number, styles.cell]}>
               {item.yourGuess.join('')}
             </CSText>
-            <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
+            <CSText style={[styles.thead23, styles.cell]}>
               {item.correctNumber}
             </CSText>
-            <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
+            <CSText style={[styles.thead23, styles.cell]}>
               {item.correctPosition}
             </CSText>
           </View>
@@ -52,17 +44,9 @@ const Table = () => {
                 index === 9 - guessList.guessList.length && styles.tbodyLast,
               ]}
               key={index}>
-              <CSText
-                textAlign="center"
-                style={[styles.thead50number, styles.cell]}>
-                {''}
-              </CSText>
-              <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
-                {''}
-              </CSText>
-              <CSText textAlign="center" style={[styles.thead23, styles.cell]}>
-                {''}
-              </CSText>
+              <CSText style={[styles.thead50number, styles.cell]}>{''}</CSText>
+              <CSText style={[styles.thead23, styles.cell]}>{''}</CSText>
+              <CSText style={[styles.thead23, styles.cell]}>{''}</CSText>
             </View>
           );
         })}
@@ -124,5 +108,6 @@ const styles = StyleSheet.create({
     height: '100%',
     textAlignVertical: 'center',
     paddingVertical: 10,
+    textAlign: 'center',
   },
 });

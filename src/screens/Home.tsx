@@ -5,21 +5,21 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {CONST_IMAGE} from '../src/utils/image.constant';
-import CSText from '../src/components/core/CSText';
-import Table from '../src/components/home/Table';
-import InputControl from '../src/components/home/InputControl';
+import {CONST_IMAGE} from '../utils/image.constant';
+import CSText from '../components/core/CSText';
+import Table from '../components/home/Table';
+import InputControl from '../components/home/InputControl';
 import {useSelector} from 'react-redux';
-import {GuessListType} from '../src/@type/GuessListType';
-import store, {RootState} from '../src/store/store';
-import {RoundListType} from '../src/@type/RoundListType';
-import {COLORS} from '../src/utils/color.constant';
-import CSModal from '../src/components/core/CSModal';
-import CSButton from '../src/components/core/CSButton';
-import {ROUND_ACTION} from '../src/store/actions/roundAction.constant';
-import {RoundType, initialRound} from '../src/@type/RoundType';
+import {GuessListType} from '../interface/GuessListType';
+import store, {RootState} from '../store/store';
+import {RoundListType} from '../interface/RoundListType';
+import {COLORS} from '../utils/color.constant';
+import CSModal from '../components/core/CSModal';
+import CSButton from '../components/core/CSButton';
+import {ROUND_ACTION} from '../store/actions/roundAction.constant';
+import {RoundType, initialRound} from '../interface/RoundType';
 import uuid from 'react-uuid';
-import {getRandomNumbers} from '../src/shared/getRandomNumber';
+import {getRandomNumbers} from '../shared/getRandomNumber';
 import IconOcticons from 'react-native-vector-icons/Octicons';
 import {useNavigation} from '@react-navigation/native';
 
@@ -37,20 +37,12 @@ const Home = () => {
   );
   const [isDisplaySelection, setIsDisplaySelection] = useState<boolean>(false);
 
-  console.log(
-    'result',
-    rounds.roundList[rounds.roundList.length - 1]?.expectedNumber?.join(''),
-  );
-
   useEffect(() => {
-    store.dispatch({type: ROUND_ACTION.newGame, payload: newRoundValue});
+    store.dispatch({type: ROUND_ACTION.NEW_GAME, payload: newRoundValue});
   }, [newRoundValue]);
 
   useEffect(() => {
     const checkRound = () => {
-      // if (rounds.roundList[rounds.roundList.length - 1]?.numNumber) {
-      //   setNumNumber(rounds.roundList[rounds.roundList.length - 1].numNumber);
-      // }
       if (rounds.roundList[rounds.roundList.length - 1]?.result) {
         setMessage('Congratulations on completing the challenge!');
         refModal.current.open();
@@ -66,7 +58,6 @@ const Home = () => {
   }, [guesses, rounds]);
 
   const handleNewGame = () => {
-    console.log('CCCCreate new');
     refModal.current.close();
     let numGuessNumber = numNumber;
     setNewRoundValue({
@@ -88,7 +79,7 @@ const Home = () => {
       setIsDisplaySelection(!isDisplaySelection);
       return;
     }
-    store.dispatch({type: ROUND_ACTION.setLevel, payload: level});
+    store.dispatch({type: ROUND_ACTION.SET_LEVEL, payload: level});
     setNumNumber(level);
     setIsDisplaySelection(!isDisplaySelection);
   };
@@ -96,7 +87,7 @@ const Home = () => {
   return (
     <ImageBackground source={CONST_IMAGE.BG} style={styles.container}>
       <CSModal refRBSheet={refModal} height={'auto'}>
-        <CSText size="lg" color="primary" bold={'bold'}>
+        <CSText size="lg" color="primary">
           Finished!
         </CSText>
         <CSText color="primary">{message}</CSText>
@@ -117,23 +108,24 @@ const Home = () => {
         <View
           style={[
             styles.selection,
+            // eslint-disable-next-line react-native/no-inline-styles
             {display: isDisplaySelection ? 'flex' : 'none'},
           ]}>
-          {[...Array(6)].map((_, index) => {
+          {[...Array(4)].map((_, index) => {
             return (
               <TouchableOpacity
                 onPress={() => {
-                  handleChooseLevel(index + 1);
+                  handleChooseLevel(index + 3);
                 }}
                 style={styles.selectionItem}
                 key={index}>
-                <CSText>{index + 1}</CSText>
+                <CSText>{index + 3}</CSText>
               </TouchableOpacity>
             );
           })}
         </View>
       </View>
-      <CSText size="xxl" bold="bold" color="primary">
+      <CSText size="xxl" color="primary">
         Guess number
       </CSText>
       <View style={styles.results}>
@@ -142,7 +134,6 @@ const Home = () => {
             item => (
               <CSText
                 size="lg"
-                bold={700}
                 key={item}
                 style={[
                   styles.resultNUmber,
@@ -177,6 +168,7 @@ const styles = StyleSheet.create({
   },
   resultNUmber: {
     letterSpacing: 15,
+    fontWeight: '700',
   },
   results: {
     flexDirection: 'row',

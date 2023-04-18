@@ -1,4 +1,4 @@
 export const GUESS_LIST_ACTION = {
-  addRecord: 'ADD_NEW_RECORD',
-  clear: 'CLEAR',
+  ADD_NEW_RECORD: 'ADD_NEW_RECORD',
+  CLEAR: 'CLEAR',
 };

@@ -1,25 +1,29 @@
-import {StyleProp, StyleSheet, Text, TextStyle} from 'react-native';
+import {StyleProp, Text, TextStyle} from 'react-native';
 import React from 'react';
+
 import {COLORS} from '../../utils/color.constant';
 
-interface CSTextProps {
+export interface CSTextProps {
   children: any;
-  size?: keyof typeof sizeText;
+  size?: keyof typeof sizeText | number;
   color?: keyof typeof COLORS;
-  bold?: any;
   style?: StyleProp<TextStyle>;
-  textAlign?: any;
 }
+export const sizeText = {
+  xs: 11,
+  sm: 13,
+  md: 18,
+  lg: 27,
+  xxl: 37,
+};
 
-const CSText = (props: CSTextProps) => {
+const CSText = ({size = 'md', ...props}: CSTextProps) => {
   return (
     <Text
       style={[
-        sizeText[props.size || 'md'].text,
         {
-          fontWeight: props.bold || 'normal',
-          color: COLORS[props.color || 'white'],
-          textAlign: props.textAlign || 'left',
+          fontSize: typeof size === 'number' ? size : sizeText[size],
+          color: props.color,
         },
         props.style,
       ]}>
@@ -27,23 +31,4 @@ const CSText = (props: CSTextProps) => {
     </Text>
   );
 };
-
-export const sizeText = {
-  xs: StyleSheet.create({
-    text: {fontSize: 11},
-  }),
-  sm: StyleSheet.create({
-    text: {fontSize: 13},
-  }),
-  md: StyleSheet.create({
-    text: {fontSize: 18},
-  }),
-  lg: StyleSheet.create({
-    text: {fontSize: 27},
-  }),
-  xxl: StyleSheet.create({
-    text: {fontSize: 37},
-  }),
-};
-
 export default CSText;

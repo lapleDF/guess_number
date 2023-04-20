@@ -110,7 +110,7 @@ const Home = () => {
         <TouchableOpacity
           onPress={handleSelectLevel}
           style={styles.btnSelectLevel}>
-          <CSText>{numNumber}</CSText>
+          <CSText color="white">{numNumber}</CSText>
           <IconOcticons name="single-select" size={23} color={COLORS.white} />
         </TouchableOpacity>
         <View
@@ -127,7 +127,7 @@ const Home = () => {
                 }}
                 style={styles.selectionItem}
                 key={index}>
-                <CSText>{index + 3}</CSText>
+                <CSText color="white">{index + 3}</CSText>
               </TouchableOpacity>
             );
           })}

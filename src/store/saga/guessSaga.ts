@@ -8,14 +8,14 @@ import {RoundType} from '../../interface/RoundType';
 import {RootState} from '../store';
 import {GuessRecord} from '../../interface/GuessRecord';
 
-function* receiveNumber(action: PayloadAction) {
-  const initialGuessRecord: GuessRecord = {
-    id: uuid(),
-    yourGuess: [],
-    correctNumber: 0,
-    correctPosition: 0,
-  };
+export const initialGuessRecord: GuessRecord = {
+  id: uuid(),
+  yourGuess: [],
+  correctNumber: 0,
+  correctPosition: 0,
+};
 
+function* receiveNumber(action: PayloadAction) {
   const rounds: RoundType[] = yield select(
     (state: RootState) => state.rounds.roundList,
   );

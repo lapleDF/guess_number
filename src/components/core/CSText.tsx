@@ -2,6 +2,7 @@ import {StyleProp, Text, TextStyle} from 'react-native';
 import React from 'react';
 
 import {COLORS} from '../../constants/color.constant';
+import {useIsDarkMode} from '../../hook/useIsDarkMode';
 
 export interface CSTextProps {
   children: any;
@@ -18,12 +19,14 @@ export const sizeText = {
 };
 
 const CSText = ({size = 'md', ...props}: CSTextProps) => {
+  const {isDarkMode} = useIsDarkMode();
+  const {color = isDarkMode === true ? 'white' : 'black'} = props;
   return (
     <Text
       style={[
         {
           fontSize: typeof size === 'number' ? size : sizeText[size],
-          color: COLORS[props.color || 'white'],
+          color: COLORS[color],
         },
         props.style,
       ]}>

@@ -1,11 +1,13 @@
-import {Text, View} from 'react-native';
 import React from 'react';
+
+import CSText from '../components/core/CSText';
+import CSContainer from '../components/core/CSContainer';
 
 const Help = () => {
   return (
-    <View>
-      <Text>Help</Text>
-    </View>
+    <CSContainer>
+      <CSText>Help</CSText>
+    </CSContainer>
   );
 };
 

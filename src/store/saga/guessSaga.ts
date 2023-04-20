@@ -22,6 +22,7 @@ function* receiveNumber(action: PayloadAction) {
 
   const expectedNumber: number[] = rounds[rounds.length - 1].expectedNumber;
 
+  // Comparing expected array number with guess array number
   action.payload.forEach((element: number, index: number) => {
     if (expectedNumber.includes(element)) {
       initialGuessRecord.correctNumber += 1;

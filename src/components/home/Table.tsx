@@ -110,5 +110,6 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     paddingVertical: 10,
     textAlign: 'center',
+    color: COLORS.white,
   },
 });

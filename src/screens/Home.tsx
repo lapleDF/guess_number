@@ -143,6 +143,7 @@ const Home = () => {
               <CSText
                 size="lg"
                 key={item}
+                color="white"
                 style={[
                   styles.resultNUmber,
                   {

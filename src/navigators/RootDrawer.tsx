@@ -1,7 +1,7 @@
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import Home from '../screens/Home';
-import History from '../screens/History';
+
+import {ROUTES} from '../constants/routes.constant';
 
 const RootDrawer = () => {
   const Drawer = createDrawerNavigator();
@@ -11,8 +11,14 @@ const RootDrawer = () => {
         drawerType: 'front',
       }}>
       <Drawer.Group screenOptions={{headerShown: false}}>
-        <Drawer.Screen name="Home" component={Home} />
-        <Drawer.Screen name="History" component={History} />
+        {ROUTES.map(item => (
+          <Drawer.Screen
+            key={item.name}
+            name={item.name}
+            component={item.component}
+            options={item.options}
+          />
+        ))}
       </Drawer.Group>
     </Drawer.Navigator>
   );

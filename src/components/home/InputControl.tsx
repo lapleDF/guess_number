@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   numberPress: {
+    color: COLORS.white,
     textAlignVertical: 'center',
     fontWeight: 'bold',
   },

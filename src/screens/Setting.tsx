@@ -3,12 +3,12 @@ import React from 'react';
 import CSText from '../components/core/CSText';
 import CSContainer from '../components/core/CSContainer';
 
-const History = () => {
+const Setting = () => {
   return (
     <CSContainer>
-      <CSText>History</CSText>
+      <CSText>Setting</CSText>
     </CSContainer>
   );
 };
 
-export default History;
+export default Setting;
